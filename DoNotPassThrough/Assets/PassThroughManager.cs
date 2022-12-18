@@ -5,30 +5,52 @@ using UnityEngine;
 
 public class PassThroughManager : MonoBehaviour
 {
-    public OVRPassthroughLayer passthrough;
-    public OVRInput.Button button;
+    public GameObject oVRCameraRig;
+    public bool isPassThroughEnabled;
+    public bool isEdgeRenderingEnabled;
+    private OVRManager oVRManager;
+    private OVRPassthroughLayer passthrough;
+    public OVRInput.Button buttonPassthrough;
+    public OVRInput.Button buttonEdgeRendering;
     public OVRInput.Controller controller;
+
 
     public Transform anchorPoint;
     public Transform centerEye;
     public float intensity;
 
     public TextMeshPro textMeshPro;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        oVRManager = oVRCameraRig.GetComponent<OVRManager>();
+        passthrough = oVRCameraRig.GetComponent<OVRPassthroughLayer>();
+        oVRManager.isInsightPassthroughEnabled = isPassThroughEnabled;
+        passthrough.edgeRenderingEnabled = isEdgeRenderingEnabled;
+        passthrough.enabled = isPassThroughEnabled;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (OVRInput.GetDown(button,controller))
+        if (OVRInput.GetDown(buttonPassthrough, controller))
         {
-            passthrough.hidden = !passthrough.hidden;
+            isPassThroughEnabled = !isPassThroughEnabled;
+            passthrough.hidden = isPassThroughEnabled;
         }
 
-        UpdateOpacity();
+        else if (OVRInput.GetDown(buttonEdgeRendering, controller))
+        {
+            isEdgeRenderingEnabled = !isEdgeRenderingEnabled;
+            passthrough.edgeRenderingEnabled = isEdgeRenderingEnabled;
+        }
+         
+        if (isPassThroughEnabled)
+        {
+           // UpdateOpacity();
+        }
     }
 
     public void UpdateOpacity() {

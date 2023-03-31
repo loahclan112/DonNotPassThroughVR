@@ -19,12 +19,6 @@ public class OnHitHandler : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Played");
-            audioSource.Play();
-
-        }
     }
 
     private void OnTriggerEnter(Collider other)
